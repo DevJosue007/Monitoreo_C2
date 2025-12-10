@@ -13,6 +13,7 @@
   <img alt="Static Badge" src="https://img.shields.io/badge/Livewire-V0.1-FB64B6?style=for-the-badge" />
   <img alt="Static Badge" src="https://img.shields.io/badge/AlphineJS-V0.1-FFD230?style=for-the-badge" />
   <img alt="Static Badge" src="https://img.shields.io/badge/ngrok-140648?style=for-the-badge&logo=Ngrok&logoColor=white" />
+  <img alt="Static Badge" src="https://img.shields.io/badge/Composer-885630?style=for-the-badge&logo=Composer&logoColor=white" />
 </div>
 <br>
 
