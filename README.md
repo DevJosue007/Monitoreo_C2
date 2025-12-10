@@ -11,6 +11,8 @@
   <img alt="Static Badge" src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
   <img alt="Static Badge" src="https://img.shields.io/badge/VOLT-V0.1-21BCFF?style=for-the-badge" />
   <img alt="Static Badge" src="https://img.shields.io/badge/Livewire-V0.1-FB64B6?style=for-the-badge" />
+  <img alt="Static Badge" src="https://img.shields.io/badge/AlphineJS-V0.1-FFD230?style=for-the-badge" />
+  <img alt="Static Badge" src="https://img.shields.io/badge/ngrok-140648?style=for-the-badge&logo=Ngrok&logoColor=white" />
 </div>
 <br>
 
