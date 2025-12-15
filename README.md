@@ -50,9 +50,6 @@
 
 
 
-Modificación desde local y subir cambio a github
-
-
 
 
 
