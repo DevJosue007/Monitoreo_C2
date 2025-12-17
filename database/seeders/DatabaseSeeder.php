@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
+        // Se limpia la cache de los permisos entre la ejecución de seeders 
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Se llama primero al seeder de roles/permisos 
@@ -26,10 +26,14 @@ class DatabaseSeeder extends Seeder
 
         // Se limpia la cache de los permisos entre la ejecución de seeders 
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
-        
+
         // Se llama al seeder para crear los usuarios y asignar los roles creados previamente
         $this->call([
             UsersSeeder::class,
+        ]);
+
+        $this->call([
+            CatalogItemSeeder::class,
         ]);
 
 
