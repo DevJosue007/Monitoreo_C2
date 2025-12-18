@@ -15,10 +15,10 @@ return new class extends Migration
 
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->unsignedBigInteger('centro_p_id');
-            $table->unsignedBigInteger('bloque_id');
-            $table->unsignedBigInteger('area_id');
-            $table->unsignedBigInteger('tipo_inc_id');
+            $table->string('centro_p_id');
+            $table->string('bloque_id');
+            $table->string('area_id');
+            $table->string('tipo_inc_id');
             $table->text('descripcion');
             $table->dateTime('fecha_hora_inc');
             $table->timestamps();

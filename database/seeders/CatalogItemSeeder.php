@@ -278,5 +278,36 @@ class CatalogItemSeeder extends Seeder
             'estatus'       => true
         ]);  
 
+        
+        // -------------------------- catálogo: areas -------------------------------
+        // ---------------------------------------------------------------------------
+
+        CatalogItem::create([
+            'definicion'    => 'tipos_inc', 
+            'item_etiqueta' => 'Bajo', 
+            'item_valor'    => 'ti_01', 
+            'estatus'       => true
+        ]);  
+        CatalogItem::create([
+            'definicion'    => 'tipos_inc', 
+            'item_etiqueta' => 'Moderado', 
+            'item_valor'    => 'ti_02', 
+            'estatus'       => true
+        ]);  
+        CatalogItem::create([
+            'definicion'    => 'tipos_inc', 
+            'item_etiqueta' => 'Alto', 
+            'item_valor'    => 'ti_03', 
+            'estatus'       => true
+        ]);  
+        CatalogItem::create([
+            'definicion'    => 'tipos_inc', 
+            'item_etiqueta' => 'Crítico', 
+            'item_valor'    => 'ti_04', 
+            'estatus'       => true
+        ]);  
+
+
     }
 }
+
