@@ -28,7 +28,7 @@ class Report extends Model
 
     public function media(){
         // El 'media:fileable' es el nombre de la columna morphs que se creo en la migración
-        return $this->mophMany(MediaFile::class, 'media_fileable');
+        return $this->morphMany(MediaFile::class, 'media_fileable');
     }
 
 

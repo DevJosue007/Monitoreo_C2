@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('media_files', function (Blueprint $table) {
             $table->id();
 
+            // Esto crea media_fileable_id y media_fileable_type (con índice automático)
             $table->morphs('media_fileable');
+            
             $table->string('archivo_ruta');
             $table->string('archivo_nombre');
             $table->string('archivo_tipo');
             $table->bigInteger('archivo_tamanio');
-            $table->dateTime('archivo_fh');
-
             $table->timestamps();
         });
     }

@@ -10,12 +10,12 @@ class MediaFile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'media_fileable',
+        'media_fileable_id',
+        'media_fileable_type',
         'archivo_ruta',
         'archivo_nombre',
         'archivo_tipo',
-        'archivo_tamanio',
-        'archivo_fh'
+        'archivo_tamanio'
     ];
 
     public function mediaFileable(){

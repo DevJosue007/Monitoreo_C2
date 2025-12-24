@@ -6,10 +6,29 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Report;
 use App\Models\CatalogItem;
+use App\Models\MediaFile;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithFileUploads;
 
 class ReportIndex extends Component
 {
+    // Propiedades Carga de archivos
+    use WithFileUploads;
+    public $archivos = [];
+
+    // Propiedades para registro
+    public $centroP_id, $bloque_id, $area_id, $tipoInc_id, $descripcion, $fecha_hora;
+    public $isCreating = false; // Controla si se muestra el formulario
+
+    // Propiedades para actualización
+    public $report_id;
+    public $isEditing = false;
+
+    // Propiedades para galeria de archivos cargados
+    public $showGallery = false;
+    public $galleryMedia = [];
+    public $reportTitle = '';
+    
     
     // --------------------------- Cargar información ------------------------
     public function render()
@@ -23,34 +42,19 @@ class ReportIndex extends Component
         ])->layout('layouts.app');
     }
 
-    // Propiedades para el formulario de registro
-    public $centroP_id, $bloque_id, $area_id, $tipoInc_id, $descripcion, $fecha_hora;
-    public $isCreating = false; // Controla si se muestra el formulario
-
-    // Propiedades para el formulario de editar
-    public $report_id;
-    public $isEditing = false;
-
-
     public function nuevoReporte(){
         $this->isCreating = true;
         $this->isEditing = false;
     }
 
-    public function editarReporte(){
-        $this->isCreating = false;
-        $this->isEditing = true;
-    }
-
     public function cancel(){
+        $this->reset();
         $this->isEditing  = false;
         $this->isCreating = false;
-        $this->reset(['centroP_id', 'bloque_id', 'area_id', 'tipoInc_id', 'descripcion', 'fecha_hora', 'isCreating']);
+        $this->resetValidation();
     }
 
-
-
-    // 1. definir reglas
+    // Reglas para guardar y editar
     protected function rules(){
         return[
             'centroP_id'  => 'required|exists:catalog_items, "item_valor"',
@@ -59,10 +63,11 @@ class ReportIndex extends Component
             'tipoInc_id'  => 'required|exists:catalog_items, "item_valor"',
             'descripcion' => 'required|min:1|max:500',
             'fecha_hora'  => 'required',
+            'archivos.*'  => 'required|file|mimes:jpg,jpeg,png,mp4,mov,avi|max:20480', //Max: 20 MB
         ];
     }
 
-    // 2. definir los mensajes personalizados
+    // Mensajes personalizados
     protected function messages(){
         return [
             'centroP_id.required'  => 'Favor de indicar un Centro Penitenciario.',
@@ -76,14 +81,15 @@ class ReportIndex extends Component
         ];
     }
     
+    // Metodo para guardar
     public function save(){
-        // 3. Ejecutar la validación Livewire aplicará automáticamente rules() y messages()
-        
+        //Ejecutar la validación Livewire aplicará automáticamente rules() y messages()
         $this->validate();
 
+        // Guardar campos formulario
         // Formatear la fecha que trae el HTML 
         $fechaFormat = date('Y-m-d H:i:s', strtotime($this->fecha_hora));
-        Report::create([
+        $report = Report::create([
             'user_id'        => Auth::id(),
             'centro_p_id'    => $this->centroP_id,
             'bloque_id'      => $this->bloque_id,
@@ -92,9 +98,26 @@ class ReportIndex extends Component
             'descripcion'    => $this->descripcion,
             'fecha_hora_inc' => $fechaFormat,
         ]);
+        // Procesamiento de archivos
+        foreach($this->archivos as $archivo){
+            // Guarda en la carpeta 'reportes' dentro de public
+            $path = $archivo->store('reportes', 'public');
+            // registra en la tabla media_files
+            MediaFile::create([
+                'media_fileable_id'   => $report->id,            // El ID del reporte creado
+                'media_fileable_type' => Report::class,          // Esto guardará "App\Models\Report"
+                'archivo_ruta'   => $path,
+                'archivo_nombre' => $archivo->getClientOriginalName(),
+                'archivo_tipo'   => $archivo->getMimeType(),
+                'archivo_tamanio'=> $archivo->getSize(),
+            ]);
+        }
+
+        $this->cancel();
         session()->flash('message', 'Reporte creado exitosamente');
     }
 
+    // Metodo para eliminar
     public function delete($id){
         $report = Report::find($id);
         if($report){
@@ -103,6 +126,7 @@ class ReportIndex extends Component
         }
     }
 
+    // metodo para cargar la información a editar
     public function edit($id){
 
         $report = Report::findOrFail($id);
@@ -122,11 +146,10 @@ class ReportIndex extends Component
 
     }
 
+    // Metodo para guardar la actualización
     public function update(){
         $this->validate();
-
         $report = Report::find($this->report_id);
-
         $report->update([
             'centro_p_id'    => $this->centroP_id,
             'bloque_id'      => $this->bloque_id,
@@ -138,11 +161,24 @@ class ReportIndex extends Component
 
         $this->cancel();
         session()->flash('message', 'Reporte actualizado correctamente.');
-
     }
 
-    
 
+    //Metodo modal 
+    public function openGallery($reportId){
+
+        $report = Report::with('media')->findOrFail($reportId);
+
+        
+        //Cargamos los archivos y el titulo para el modal
+        $this->galleryMedia = $report->media;
+        $this->reportTitle  = "Evidencia del reporte #".$report->id;
+        $this->showGallery  = true;
+    }
+    public function closeGallery(){
+        $this->showGallery = false;
+        $this->reset(['galleryMedia', 'reportTitle']);
+    }
 
 
 

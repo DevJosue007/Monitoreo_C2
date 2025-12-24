@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\CatalogIndex;
 use App\Livewire\ReportIndex;
 use Illuminate\Support\Facades\Route;
 
@@ -27,12 +28,12 @@ Route::middleware(['auth', 'verified'])->group(function(){
     //------ Rutas admin -------------------
 
     // Grupo de catálogos
-    Route::middleware(['role:rol_admin'])->prefix('catalogos')->name('catalogos.')->group(function(){
-        Route::get('/', function(){ return "Gestion de catálogos";})->name('index');
+    Route::middleware(['auth', 'role:r_admin'])->prefix('catalogos')->name('catalogos.')->group(function(){
+        Route::get('/', CatalogIndex::class)->name('index');
     });
 
     // Grupo de usuarios/roles 
-    Route::middleware(['role:rol_admin'])->prefix('configuracion')->name('config.')->group(function(){
+    Route::middleware(['role:r_admin'])->prefix('configuracion')->name('config.')->group(function(){
         Route::get('/usuarios', function(){ return "Gestion de Usuarios";})->name('users');
         Route::get('/roles', function(){ return "Gestion de roles"; })->name('roles');
     });
