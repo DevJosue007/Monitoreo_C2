@@ -2,6 +2,7 @@
 
 use App\Livewire\CatalogIndex;
 use App\Livewire\ReportIndex;
+use App\Livewire\RoleIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
@@ -21,23 +22,14 @@ Route::middleware(['auth', 'verified'])->group(function(){
         return view('dashboard');
     })->name('dashboard');
 
-    //------ Rutas operadores y admin -------
-    // Grupo de reportes
     Route::get('/reportes', ReportIndex::class)->name('reportes.index');
 
-    //------ Rutas admin -------------------
-
-    // Grupo de catálogos
     Route::middleware(['auth', 'role:r_admin'])->prefix('catalogos')->name('catalogos.')->group(function(){
         Route::get('/', CatalogIndex::class)->name('index');
     });
 
-    // Grupo de usuarios/roles 
-    Route::middleware(['role:r_admin'])->prefix('configuracion')->name('config.')->group(function(){
-        Route::get('/usuarios', function(){ return "Gestion de Usuarios";})->name('users');
-        Route::get('/roles', function(){ return "Gestion de roles"; })->name('roles');
+    Route::middleware(['auth', 'role:r_admin'])->prefix('roles')->name('roles.')->group(function(){
+        Route::get('/', RoleIndex::class)->name('index');
     });
-
-
 
 });

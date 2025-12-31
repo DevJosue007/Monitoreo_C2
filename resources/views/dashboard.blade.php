@@ -24,7 +24,15 @@
                         <h4 class="font-bold text-blue-800">Catalogos</h4>
                         <p class="text-sm text-gray-600"> Gestion de catalogos </p>
                         <div class="mt-4 flex space-x-2">
-                            <a href="{{ route('catalogos.index') }}" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Reportes</a>
+                            <a href="{{ route('catalogos.index') }}" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Catalogos</a>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg shadow">
+                        <h4 class="font-bold text-blue-800">Roles</h4>
+                        <p class="text-sm text-gray-600"> Gestion de Roles </p>
+                        <div class="mt-4 flex space-x-2">
+                            <a href="{{ route('roles.index') }}" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Roles</a>
                         </div>
                     </div>
 

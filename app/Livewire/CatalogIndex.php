@@ -27,7 +27,7 @@ class CatalogIndex extends Component
             'definicion'    => 'required|string|max:50',
             'item_etiqueta' => 'required|string|max:100',
             'item_valor'    => 'required|string|max:20',
-            'status'        => 'required|boolean'
+            'estatus'       => 'required|boolean'
         ];
     }
 
