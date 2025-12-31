@@ -40,7 +40,7 @@ class CatalogIndex extends Component
             'item_etiqueta.max'      => 'El valor de la etiqueta no debe superar los 100 caracteres.',
             'item_valor.required'    => 'Favor de agregar un valor al item.',
             'item_valor.max'         => 'El valor de la etiqueta no debe superar los 20 caracteres.',
-            'status.requierd'        => 'Favor de seleccionar un estatus'
+            'estatus.requierd'       => 'Favor de seleccionar un estatus'
         ];
     }
 
@@ -63,7 +63,7 @@ class CatalogIndex extends Component
             'definicion'    => $this->definicion,
             'item_etiqueta' => $this->item_etiqueta,
             'item_valor'    => $this->item_valor,
-            'status'        => $this->status,
+            'estatus'       => $this->estatus,
         ]);
         $this->cancel();
         session()->flash('message', 'Item creado');
