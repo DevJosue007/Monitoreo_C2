@@ -8,13 +8,14 @@ use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserIndex extends Component
 {
     use WithPagination;
 
-    public $name, $email, $passport, $role_id, $user_id;
+    public $name, $email, $password, $role_id, $user_id;
     public $isCreating = false;
     public $isEditing = false;
     public $search = '';
@@ -24,6 +25,22 @@ class UserIndex extends Component
         $this->resetValidation();
         $this->isCreating = false;
         $this->isEditing = false;
+    }
+
+    public function nuevoUsuario(){
+        $this->isCreating = true;
+        $this->isEditing = false;
+    }
+
+
+    protected function messages()
+    {
+        return [
+            'name.required' => 'Se debe ingresar el nombre.',
+            'name.string'  => 'El tipo de dato debe ser texto.',
+            'name.max'     => 'El nombre no debe pasar de 255 caracteres.',
+            'name.min'     => 'El nombre debe contener minimo 10 caracteres.',
+        ];
     }
 
     public function render()
@@ -43,20 +60,14 @@ class UserIndex extends Component
             'name'     => 'required|string|max:255|min:10',
             'email'    => 'required|email|unique:users,email',  
             'password' => ['required', Password::defaults()],
-            'role_id'  => 'required|exist:roles,id'
+            'role_id'  => 'required|exists:roles,id'
         ]);
-
-        $this->messages([
-            'name.required'=> 'Se debe ingresar el nombre.',
-            'name.string'  => 'El tipo de dato debe ser texto.',
-            'name.max'     => 'El nombre no debe pasar de 255 caracteres.',
-            'name.min'     => 'El nombre debe contener minimo 10 caracteres.',
-        ]);
+        
 
         $user = User::create([
             'name'     => $this->name,
             'email'    => $this->email,
-            'passowrd' => Hash::make($this->password),
+            'password' => Hash::make($this->password),
         ]);
 
         $role = Role::findById($this->role_id);
@@ -81,13 +92,13 @@ class UserIndex extends Component
     }
 
     public function update(){
-        $user = USer::findOrFail($this->user_id);
+        $user = User::findOrFail($this->user_id);
 
         $this->validate([
             'name'    => 'required|string|max:255|min:10',
             'email'   => 'required|email|unique:users,email,'.$user->id,
-            'pasword' => ['nullable', Password::defaults()],
-            'role_id' => 'required|exist:roles,id',
+            'password' => ['nullable', Password::defaults()],
+            'role_id' => 'required|exists:roles,id',
         ]);
 
         $data = [
@@ -107,6 +118,24 @@ class UserIndex extends Component
 
         $this->cancel();
         session()->flash('message', 'usuario actualizado');
+    }
+
+    public function delete($id){
+        // Verificar que no se este borrando a sí mismo
+        if($id === auth()->id() ){
+            session()->flash('error', 'No puedes eliminar tu propia cuenta');
+            return;
+        }
+
+        $user = User::findOrFail($id);
+        if($user->hasRole('r_admin')  && User::role('r_admin')->count() <= 1){
+            session()->flash('error', 'No se puede eliminar al unico administrador del sistema');
+            return;
+        }
+
+        $user->delete();
+        session()->flash('message', 'Usuario eliminado');
+
 
 
     }
