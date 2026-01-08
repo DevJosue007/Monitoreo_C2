@@ -9,7 +9,7 @@
   <img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" />
   <img src="https://img.shields.io/badge/Xampp-F37623?style=for-the-badge&logo=xampp&logoColor=white" />
   <img alt="Static Badge" src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
-  <img alt="Static Badge" src="https://img.shields.io/badge/VOLT-V0.1-21BCFF?style=for-the-badge" />
+  <img alt="Static Badge" src="https://img.shields.io/badge/Chart.JS-V0.1-21BCFF?style=for-the-badge" />
   <img alt="Static Badge" src="https://img.shields.io/badge/Livewire-V0.1-FB64B6?style=for-the-badge" />
   <img alt="Static Badge" src="https://img.shields.io/badge/AlphineJS-V0.1-FFD230?style=for-the-badge" />
   <img alt="Static Badge" src="https://img.shields.io/badge/ngrok-140648?style=for-the-badge&logo=Ngrok&logoColor=white" />
