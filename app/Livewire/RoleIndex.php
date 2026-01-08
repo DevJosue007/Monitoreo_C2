@@ -18,6 +18,9 @@ class RoleIndex extends Component
     public $search="";
     public $selected_permissions = [];
 
+    // Escuchador de eventos 
+    protected $listeners = ['deleteConfirmed' => 'delete'];
+
     public function render()
     {
         return view('livewire.role-index',[
@@ -66,7 +69,11 @@ class RoleIndex extends Component
         }
 
         $this->cancel();
-        session()->flash('message', 'Rol con permisos creado exitosamente');
+        //session()->flash('message', 'Rol con permisos creado exitosamente');
+        $this->dispatch('swal:toast', [
+            'icon'  => 'success',
+            'title' => 'Rol creado y configurado.'
+        ]);
 
     }   
 
@@ -109,11 +116,19 @@ class RoleIndex extends Component
         // Evitar borrar el rol de super admin por seguridad
         $role = Role::findById($id);
         if($role->name === 'r_admin') {
-            session()->flash('message', 'No se puede eliminar el rol raíz.');
+            //session()->flash('message', 'No se puede eliminar el rol raíz.');
+            $this->dispatch('swal:toast', [
+                'icon'  => 'error',
+                'title' => 'No se puede eliminar el rol raíz.' 
+            ]);
             return;
         }
         $role->delete();
-        session()->flash('message', 'Rol eliminado');
+        //session()->flash('message', 'Rol eliminado');
+        $this->dispatch('swal:toast', [
+            'icon'  => 'success',
+            'title' => 'Rol eliminado'
+        ]);
 
     }
 

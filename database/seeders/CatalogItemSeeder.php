@@ -290,7 +290,7 @@ class CatalogItemSeeder extends Seeder
         ]);  
         CatalogItem::create([
             'definicion'    => 'tipos_inc', 
-            'item_etiqueta' => 'Moderado', 
+            'item_etiqueta' => 'Medio', 
             'item_valor'    => 'ti_02', 
             'estatus'       => true
         ]);  
@@ -300,14 +300,6 @@ class CatalogItemSeeder extends Seeder
             'item_valor'    => 'ti_03', 
             'estatus'       => true
         ]);  
-        CatalogItem::create([
-            'definicion'    => 'tipos_inc', 
-            'item_etiqueta' => 'Crítico', 
-            'item_valor'    => 'ti_04', 
-            'estatus'       => true
-        ]);  
-
-
     }
 }
 

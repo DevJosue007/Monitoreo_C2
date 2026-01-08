@@ -12,8 +12,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="flex justify-between mb-4">
                 <h1 class="text-2xl font-bold">Gestión de Roles</h1>
-                <button type="button" wire:click="nuevoRol" class="bg-indigo-600 text white px-2 py-2 rounded shadow">
-                    Nuevo Rol
+                <button type="button" wire:click="nuevoRol" class="bg-indigo-600 text-white px-2 py-2 rounded shadow">
+                <x-heroicon-s-plus-circle class="w-4 h-4"/>  Nuevo Rol
                 </button>
             </div>
 
@@ -36,9 +36,13 @@
                                 <td class="p-3">
                                     <button type="button" wire:click="edit({{ $role->id }})"
                                         class="text-orange-600 hover:text-orange-900">Editar</button>
-                                    <button type="button" wire:confirm="¿Estás Seguro?"
-                                        wire:click="delete({{ $role->id }})"
-                                        class="text-red-600 hover:text-red-900">Eliminar</button>
+                                        
+                                    <button type="button" 
+                                        wire:click="$dispatch('confirmDelete',{id: {{$role->id}}})"
+                                        class="text-red-600 hover:text-red-900">
+                                        <span wire:loading.remove> Eliminar</span>
+                                        <span wire:loading> Eliminando...</span>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
