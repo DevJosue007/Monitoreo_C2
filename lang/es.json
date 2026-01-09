@@ -1,0 +1,5 @@
+{
+    "These credentials do not match our records.": "Las credenciales no coinciden con nuestros registros.",
+    "auth.failed": "Usuario o contraseña incorrectos.",
+    "throttle": "Demasiados intentos de acceso. Por favor intente en :seconds segundos."
+}

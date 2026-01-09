@@ -60,7 +60,7 @@ class DashboardStats extends Component
                 'rbm'   => $meses[$fechaActual->month],
                 'rbd'   => $diasSemana[$fechaActual->dayOfWeek],
             ],
-            'lastReports'  => Report::latest()->take(5)->get()
+            'lastReports'  => Report::latest()->take(10)->get()
         ])->layout('layouts.app');
     }
 }

@@ -12,6 +12,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <!-- favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}">
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -20,9 +23,9 @@
 
     <div class="flex h-screen bg-gray-100 overflow-hidden">
         <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0">
-            <div class="p-6 flex items-center space-x-2 border-b border-slate-800">
-                <x-heroicon-s-shield-check class="w-8 h-8 text-indigo-500" />
-                <span class="text-xl font-bold tracking-wider"> MONITOREO C2</span>
+            <div class="p-6 flex items-center space-x-2 border-b border-slate-800"> 
+                <x-application-logo class="h-8 w-auto fill-current text-indigo-500" />
+                <span class="text-xl font-bold tracking-wider"> Monitoreo</span>
             </div>
 
             <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
