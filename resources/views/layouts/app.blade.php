@@ -23,7 +23,7 @@
 
     <div class="flex h-screen bg-gray-100 overflow-hidden">
         <aside class="w-64 bg-slate-900 text-white flex-shrink-0 hidden md:flex flex-col h-screen sticky top-0">
-            <div class="p-6 flex items-center space-x-2 border-b border-slate-800"> 
+            <div class="p-6 flex items-center space-x-2 border-b border-slate-800">
                 <x-application-logo class="h-8 w-auto fill-current text-indigo-500" />
                 <span class="text-xl font-bold tracking-wider"> Monitoreo</span>
             </div>
@@ -53,15 +53,45 @@
                 @endrole
             </nav>
 
-            <div class="p-4 border-t border-slate-800">
+            <div class="p-4 border-t border-slate-800" x-data="{ open: false }">
 
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="flex items-center text-slate-400 hover:text-white transition w-full px-y py-2 rounded-lg">
-                        <x-heroicon-o-arrow-left-on-rectangle class="w-5 h-5 mr-3" />
-                        Cerrar Sesión
-                    </button>
-                </form>
+                <button @click="open = !open" @click.away="open = false"
+                    class="flex items-center w-full p-2 rounded-xl hover:bg-slate-800 transition duration-200 group">
+
+                    <div
+                        class="h-10 w-10 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold shado-lg shado-blue-500/20 group-hover:scale-105 transition-transform">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                    </div>
+
+                    <div class="ml-3 text-left">
+                        <p class="text-sm font-bold text-white leading-none"> {{ Auth::user()->name }} </p>
+                        {{-- <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-tighter">Administrador</p>                     --}}
+                    </div>
+                    <x-heroicon-s-chevron-up class="w-4 h-4 ml-auto text-slate-500 transition-transform"
+                        ::class="open ? 'rotate-180' : ''" />
+                </button>
+
+                <div x-show="open" 
+                    x-transition:enter="transition ease-out duration-100"
+                    x-transition:enter-start="transform opacity-0 scale-95"
+                    x-transition:enter-end="transform opacity-100 scale-100" 
+                    class="mb-2 space-y-1">
+
+                    <a href="{{ route('profile') }}" wire:navigate
+                        class="flex items-center px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition">
+                        <x-heroicon-o-user-circle class="w-5 h-5 mr-3" />
+                        Mi Perfil
+                    </a>
+
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="flex items-center px-4 py-2 text-sm text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition">
+                            <x-heroicon-o-arrow-left-on-rectangle class="w-5 h-5 mr-3" />
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                </div>
             </div>
         </aside>
 

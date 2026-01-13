@@ -119,7 +119,18 @@
                             <p class="text-sm font-semibold text-gray-800"> {{ Str::limit($report->descripcion, 40) }}</p>
                             <p class="text-xs text-gray-500"> {{ $report->created_at->diffForHumans() }}</p>
                         </div>
-                        <span class="text-xs font-bold px-2 py-1 bg-gray-100 rounded">Id # {{ $report->id }}</span>
+
+                        
+                        @if ($report->tipo_inc_id == 'ti_01')
+                            <span class="text-xs font-bold px-2 py-1 bg-green-200 rounded">Id # {{ $report->id }}</span>        
+                        @endif
+                        @if ($report->tipo_inc_id == 'ti_02')
+                            <span class="text-xs font-bold px-2 py-1 bg-yellow-200 rounded">Id # {{ $report->id }}</span>        
+                        @endif
+                        @if ($report->tipo_inc_id == 'ti_03')
+                            <span class="text-xs font-bold px-2 py-1 bg-red-200 rounded">Id # {{ $report->id }}</span>        
+                        @endif
+
                     </div>
                 @endforeach
             </div>

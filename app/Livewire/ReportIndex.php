@@ -19,7 +19,7 @@ class ReportIndex extends Component
     // Propiedades para registro
     public $centroP_id, $bloque_id, $area_id, $tipoInc_id, $descripcion, $fecha_hora;
     public $isCreating = false; // Controla si se muestra el formulario
-
+    public $search = "";
     // Propiedades para actualización
     public $report_id;
     public $isEditing = false;
@@ -29,12 +29,15 @@ class ReportIndex extends Component
     public $galleryMedia = [];
     public $reportTitle = '';
     
-    
+
+
+
     // --------------------------- Cargar información ------------------------
     public function render()
     {
         return view('livewire.report-index', [
-            'reports' => Report::with('user')->orderBy('created_at', 'desc')->paginate(10),
+            'reports' => Report::with('user')->orderBy('created_at', 'desc')
+                            ->paginate(10),
             'centros' => CatalogItem::where('definicion', 'centros_penitenciarios')->where('estatus', true)->get(),
             'bloques' => CatalogItem::where('definicion' , 'bloques')->where('estatus', true)->get(),
             'areas'   => CatalogItem::where('definicion', 'areas')->where('estatus', true)->get(),

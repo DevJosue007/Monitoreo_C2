@@ -1,5 +1,10 @@
 {
     "These credentials do not match our records.": "Las credenciales no coinciden con nuestros registros.",
     "auth.failed": "Usuario o contraseña incorrectos.",
-    "throttle": "Demasiados intentos de acceso. Por favor intente en :seconds segundos."
+    "throttle": "Demasiados intentos de acceso. Por favor intente en :seconds segundos.",
+    "Update Password": "Actualizar Contraseña",
+    "Profile Information": "Información del Perfil",
+    "The password field must be at least 8 characters.": "La contraseña debe tener al menos 8 caracteres",
+    "The password field confirmation does not match.": "La nueva contraseña no coincide con la confirmación",
+    "The password is incorrect.": "La contraseña es incorrecta"
 }
