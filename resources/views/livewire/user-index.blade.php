@@ -1,72 +1,64 @@
 <div> {{-- DIV RAIZ --}}
-
- <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        @if (session()->has('message'))
-            <div class="mb-4 p-4 bg-green-100 text-green-800 rounded shadow">
-                {{ session('message') }}
-            </div>
-        @endif
-        @if (session()->has('error'))
-    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
-        {{ session('error') }}
-    </div>
-@endif
-    </div>
-
-
-    <div class="py-12">
+    <div class="py-2">
         <div class="mx-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <x-section-title>
+                <x-slot name="icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path
+                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                    </svg>
+                </x-slot>
+                Usuarios Registrados
+            </x-section-title>
+
             <div class="flex justify-between mb-4">
-                <h1 class="text-2xl font-bold text-gray-800"> Usuarios del Sistema</h1>
-                <button type="button" wire:click="nuevoUsuario"
-                    class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 shadow">
+                <input type="text" wire:model.live="search" placeholder="Buscar..."
+                    class="rounded-md border-gray-300 shadow-sm">
+                <x-primary-button wire:click="nuevoUsuario">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4 mr-2">
+                        <path d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
                     Nuevo Usuario
-                </button>
+                </x-primary-button>
             </div>
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <input type="text" wire:model.live="search" placeholder="Buscar por nombre o correo..."
-                    class="mb-4 w-full md:w-1/3 rounded-md border-gray-300 shadow-sm">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-300">
+                        <thead>
+                            <tr>
+                                <th class="px-6 py-3 text-left"> Nombre</th>
+                                <th class="px-6 py-3 text-left"> Email </th>
+                                <th class="px-6 py-3 text-left"> Rol </th>
+                                <th class="px-6 py-3 text-left"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach ($users as $user)
+                                <tr>
+                                    <td class="px-6 py-4 max-w-sm break-words whitespace-normal"> {{ $user->name }}</td>
+                                    <td class="px-6 py-4 max-w-sm break-words whitespace-normal"> {{ $user->email }}</td>
+                                    <td class="px-6 py-4 max-w-sm break-words whitespace-normal">
+                                        {{ $user->getRoleNames()->implode(', ') }}
+                                    </td>
+                                    <td class="px-6 py-4 max-w-sm break-words whitespace-normal">
+                                        <x-edit-button type="button" wire:click="edit({{ $user->id }})">
+                                        </x-edit-button>
+
+                                        <x-delete-button wire:click="delete( {{ $user->id }})"
+                                            wire:confirm="¿Estás seguro de que deseas eliminar permanentemente al usuario?">
+                                        </x-delete-button>
+                                      
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                {{ $users->links() }}
             </div>
-
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Nombre</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Rol
-                        </th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Acciones</th>
-                    </tr>
-                </thead>
-
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach ($users as $user)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap"> {{ $user->name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap"> {{ $user->email }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $user->getRoleNames()->implode(', ') }}
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <button wire:click="edit({{ $user->id }})"
-                                    class="text-indigo-600 hover:text-indigo-900 mr-3 font-medium">
-                                    Editar
-                                </button>
-                                <button wire:click="delete( {{ $user->id }})"
-                                    wire:confirm="¿Estás seguro de que deseas eliminar permanentemente al usuario?"
-                                    class="text-red-600 hover:text-red-900 font-medium">
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <div class="mt-4">{{ $users->links() }}</div>
         </div>
     </div>
 
@@ -74,7 +66,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
             <div class="bg-white p-6 rounded-lg w-full max-w-md shadow-2xl">
                 <h2 class="text-xl font-bold mb-4 border-b pb-2 text-gray-800">
-                    {{ $isEditing ? 'Actualizar' : 'Registrar' }}
+                    {{ $isEditing ? '- Actualizar' : '- Nuevo' }} Usuario - 
                 </h2>
 
                 <form wire:submit.prevent="{{ $isEditing ? 'update' : 'save' }}">
@@ -99,25 +91,33 @@
                             <select wire:model="role_id" class="w-full rounded-md border-gray-300">
                                 <option value="">Seleccione un rol...</option>
                                 @foreach ($roles as $role)
-                                    <option value="{{ $role->id }}"> {{ $role->name}}</option>
+                                    <option value="{{ $role->id }}"> {{ $role->name }}</option>
                                 @endforeach
                             </select>
-                            @error('role_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            @error('role_id')
+                                <span class="text-red-500 text-xs">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">
-                                Contraseña {{ $isEditing ? '(Dejar vacio para no cambiar)' : ''}}
+                                Contraseña {{ $isEditing ? '(Dejar vacio para no cambiar)' : '' }}
                             </label>
                             <input type="password" wire:model="password" class="w-full rounded-md border-gray-300">
-                            @error('password') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            @error('password')
+                                <span class="text-red-500 text-xs">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="mt-6 flex justify-end gap-3 border-t pt-4">
-                        <button type="button" wire:click="cancel" class="bg-gray-400 text-white px-4 py-2 rounded shadow hover:bg-gray-500"> Cancelar</button>
-                        <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded shadow hover:bg-indigo-700">
-                            {{ $isEditing ? 'Guardar Cambios' : 'Crear Usuario' }}
-                        </button>
+                        <x-cancel-button wire:click="cancel"> </x-cancel-button>
+                        
+                        @if ($isEditing)
+                            <x-edit-button></x-edit-button>
+                        @else
+                            <x-save-button></x-save-button>
+                        @endif
+
                     </div>
                 </form>
             </div>

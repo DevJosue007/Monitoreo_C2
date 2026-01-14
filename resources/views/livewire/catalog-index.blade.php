@@ -1,6 +1,15 @@
 <div> <!-- INICIO DIV RAIZ -->
-    <div class="py-12">
+    <div class="py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            <x-section-title>
+                <x-slot name="icon">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                    </svg>
+                </x-slot>
+                Catálogo de Items
+            </x-section-title>
 
             <div class="flex justify-between mb-4">
                 <input type="text" wire:model.live="search" placeholder="Filtrar por etiqueta..."
@@ -19,10 +28,10 @@
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead>
                             <tr>
-                                <th class="px-6 py-3 text-left">DEFINICIÓN</th>
-                                <th class="px-6 py-3 text-left">ETIQUETA</th>
-                                <th class="px-6 py-3 text-left">VALOR</th>
-                                <th class="px-6 py-3 text-left">ESTATUS</th>
+                                <th class="px-6 py-3 text-left">Definición</th>
+                                <th class="px-6 py-3 text-left">Etiqueta</th>
+                                <th class="px-6 py-3 text-left">Valor</th>
+                                <th class="px-6 py-3 text-left">Estatus</th>
                                 <th class="px-6 py-3 text-left"></th>
                             </tr>
                         </thead>
@@ -41,8 +50,7 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 text-center max-w-sm break-words whitespace-normal">
-                                        <x-edit-button type="button"
-                                            wire:click="edit({{ $item->id }})">
+                                        <x-edit-button type="button" wire:click="edit({{ $item->id }})">
                                         </x-edit-button>
 
                                         <x-delete-button wire:click="delete({{ $item->id }})"
@@ -57,9 +65,7 @@
                 </div>
                 {{ $items->links() }}
             </div>
-
         </div>
-
     </div>
 
 
@@ -95,7 +101,7 @@
                         </div>
                         <div class="mt-6 flex justify-end gap-2">
                             <x-cancel-button wire:click="cancel"> </x-cancel-button>
-                            
+
                             @if ($isEditing)
                                 <x-edit-button></x-edit-button>
                             @else
