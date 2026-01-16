@@ -30,7 +30,7 @@
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead>
                             <tr>
-                                <th class="px-6 py-3 text-left">Rol</th>
+                                <th class="px-6 py-3 text-left">Nombre del Rol</th>
                                 <th class="px-6 py-3 text-left">Permisos Asignados</th>
                                 <th class="px-6 py-3 text-left"></th>
                             </tr>
@@ -39,7 +39,15 @@
                             @foreach ($roles as $role)
                                 <tr class="border-b">
                                     <td class="p-3 font-semibold"> {{ $role->name }}</td>
-                                    <td class="p-3 font-semibold"></td>
+                                    <td class="p-3 max-w-sm whitespace-normal break-words justify-center">
+
+                                        @forelse ($role->permissions as $permission)
+                                            <span class="text-gray-800 pl-2 pr-2 bg-blue-100 rounded-2xl">{{$permission->name}}</span>
+                                        @empty
+                                            Sin permisos asignados
+                                        @endforelse
+
+                                    </td>
                                     <td class="p-3">
                                         <x-edit-button type="button" wire:click="edit({{ $role->id }})">
                                         </x-edit-button>

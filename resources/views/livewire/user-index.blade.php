@@ -47,8 +47,8 @@
                                         <x-edit-button type="button" wire:click="edit({{ $user->id }})">
                                         </x-edit-button>
 
-                                        <x-delete-button wire:click="delete( {{ $user->id }})"
-                                            wire:confirm="¿Estás seguro de que deseas eliminar permanentemente al usuario?">
+                                        <x-delete-button type="button" 
+                                            wire:click="$dispatch('confirmDelete', {id: {{ $user->id }}})">
                                         </x-delete-button>
                                       
                                     </td>

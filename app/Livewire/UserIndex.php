@@ -20,6 +20,8 @@ class UserIndex extends Component
     public $isEditing = false;
     public $search = '';
 
+    protected $listeners = ['deleteConfirmed' => 'delete'];
+
     public function cancel(){
         $this->reset();
         $this->resetValidation();
@@ -117,26 +119,44 @@ class UserIndex extends Component
         $user->syncRoles([$role->name]);
 
         $this->cancel();
-        session()->flash('message', 'usuario actualizado');
+
+        // session()->flash('message', 'usuario actualizado');
+
+        $this->dispatch('swal:toast', [
+            'icon'  => 'success',
+            'title' => 'Usuario Actualizado.'
+        ]);
+
     }
 
     public function delete($id){
         // Verificar que no se este borrando a sí mismo
         if($id === auth()->id() ){
-            session()->flash('error', 'No puedes eliminar tu propia cuenta');
+            $this->dispatch('swal:toast', [
+                'icon'  => 'error',
+                'title' => 'Para eliminar tu propia cuenta debes hacerlo desde el módulo "Mi perfil".'
+            ]);
+            // session()->flash('error', 'No puedes eliminar tu propia cuenta');
             return;
         }
 
         $user = User::findOrFail($id);
         if($user->hasRole('r_admin')  && User::role('r_admin')->count() <= 1){
-            session()->flash('error', 'No se puede eliminar al unico administrador del sistema');
+            //session()->flash('error', 'No se puede eliminar al unico administrador del sistema');
+            $this->dispatch('swal:toast', [
+                'icon'  => 'error',
+                'title' => 'No se puede eliminar al unico administrador del sistema.'
+            ]);
+
             return;
         }
 
         $user->delete();
-        session()->flash('message', 'Usuario eliminado');
-
-
+        $this->dispatch('swal:toast', [
+                'icon'  => 'success',
+                'title' => 'El usuario ha sido eliminado.'
+            ]);
+        // session()->flash('message', 'Usuario eliminado');
 
     }
 

@@ -15,34 +15,42 @@ class RoleIndex extends Component
     public $name, $role_id;
     public $isCreating = false;
     public $isEditing = false;
-    public $search="";
+    public $search = "";
     public $selected_permissions = [];
+
+
 
     // Escuchador de eventos 
     protected $listeners = ['deleteConfirmed' => 'delete'];
 
+
     public function render()
     {
-        return view('livewire.role-index',[
-            'roles' => Role::where('name', 'like', '%'.$this->search.'%')->paginate(10),
+        return view('livewire.role-index', [
+            'roles' => Role::with('permissions')
+                ->where('name', 'like', '%' . $this->search . '%')
+                ->paginate(10),
             'all_permissions' => Permission::all()
         ])->layout('layouts.app');
     }
-    
-    public function nuevoRol(){
+
+    public function nuevoRol()
+    {
         $this->isCreating = true;
         $this->isEditing = false;
     }
 
 
-    protected function rules(){
+    protected function rules()
+    {
         return [
-            'name' =>'required|unique:roles,name|alpha_dash|max:255|min:5'
+            'name' => 'required|unique:roles,name|alpha_dash|max:255|min:5'
         ];
     }
 
-    protected function messages(){
-        return[
+    protected function messages()
+    {
+        return [
             'name.required'     => 'Favor de ingresar un nombre al nuevo rol.',
             'name.unique'       => 'Rol duplicado, favor de cambiarlo.',
             'name.alpha_dash'   => 'No se permiten caracteres especiales.',
@@ -51,20 +59,22 @@ class RoleIndex extends Component
         ];
     }
 
-    public function cancel(){
+    public function cancel()
+    {
         $this->reset();
         $this->isEditing  = false;
         $this->isCreating = false;
         $this->resetValidation();
     }
 
-    public function save(){
+    public function save()
+    {
         $this->validate();
 
-        $role =Role::create(['name' => $this->name, 'guard_name' => 'web']);
+        $role = Role::create(['name' => $this->name, 'guard_name' => 'web']);
 
         // Asignar los permisos seleccionados al rol
-        if(!empty($this->selected_permissions)){
+        if (!empty($this->selected_permissions)) {
             $role->syncPermissions($this->selected_permissions);
         }
 
@@ -74,14 +84,14 @@ class RoleIndex extends Component
             'icon'  => 'success',
             'title' => 'Rol creado y configurado.'
         ]);
+    }
 
-    }   
-
-    public function edit($id){
+    public function edit($id)
+    {
         $role = Role::findOrFail($id);
         $this->role_id = $role->id;
         $this->name = $role->name;
-        
+
         // Cargar los permisos actuales del rol a editar 
         $this->selected_permissions = $role->permissions->pluck('name')->toArray();
 
@@ -89,10 +99,11 @@ class RoleIndex extends Component
         $this->isCreating = true;
     }
 
-    public function update(){
+    public function update()
+    {
         $this->validate(
             [
-                'name' => 'required|alpha_dash|max:255|min:5|unique:roles,name,'.$this->role_id
+                'name' => 'required|alpha_dash|max:255|min:5|unique:roles,name,' . $this->role_id
             ],
             [
                 'name.required'     => 'Favor de ingresar un nombre al nuevo rol.',
@@ -108,18 +119,22 @@ class RoleIndex extends Component
         // Sincronizar permisos (quita los que ya no estan y agrega los nuevos)
         $role->syncPermissions($this->selected_permissions);
         $this->cancel();
-        session()->flash('message','Rol Actualizado.');
+        // session()->flash('message','Rol Actualizado.');
+        $this->dispatch('swal:toast', [
+            'icon'  => 'success',
+            'title' => 'Rol actualizado.'
+        ]);
     }
 
     public function delete($id)
     {
         // Evitar borrar el rol de super admin por seguridad
         $role = Role::findById($id);
-        if($role->name === 'r_admin') {
+        if ($role->name === 'r_admin') {
             //session()->flash('message', 'No se puede eliminar el rol raíz.');
             $this->dispatch('swal:toast', [
                 'icon'  => 'error',
-                'title' => 'No se puede eliminar el rol raíz.' 
+                'title' => 'No se puede eliminar el rol raíz.'
             ]);
             return;
         }
@@ -129,9 +144,5 @@ class RoleIndex extends Component
             'icon'  => 'success',
             'title' => 'Rol eliminado'
         ]);
-
     }
-
-
-
 }
