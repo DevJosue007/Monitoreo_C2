@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\CatalogItem;
+use Illuminate\Support\Facades\Auth;
 
 class CatalogIndex extends Component
 {

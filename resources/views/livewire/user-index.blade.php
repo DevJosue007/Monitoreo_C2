@@ -15,12 +15,10 @@
             <div class="flex justify-between mb-4">
                 <input type="text" wire:model.live="search" placeholder="Buscar..."
                     class="rounded-md border-gray-300 shadow-sm">
-                <x-primary-button wire:click="nuevoUsuario">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4 mr-2">
-                        <path d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                    Nuevo Usuario
-                </x-primary-button>
+
+                <x-create-button wire:click="nuevoUsuario" permission="crear_usuarios">
+                </x-create-button>
+            
             </div>
 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
@@ -44,11 +42,11 @@
                                         {{ $user->getRoleNames()->implode(', ') }}
                                     </td>
                                     <td class="px-6 py-4 max-w-sm break-words whitespace-normal">
-                                        <x-edit-button type="button" wire:click="edit({{ $user->id }})">
+                                        <x-edit-button type="button" wire:click="edit({{ $user->id }})" permission="editar_usuarios">
                                         </x-edit-button>
 
                                         <x-delete-button type="button" 
-                                            wire:click="$dispatch('confirmDelete', {id: {{ $user->id }}})">
+                                            wire:click="$dispatch('confirmDelete', {id: {{ $user->id }}})" permission="eliminar_usuarios">
                                         </x-delete-button>
                                       
                                     </td>

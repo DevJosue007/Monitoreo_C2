@@ -58,21 +58,8 @@ class RolesAndPermissionsSeeder extends Seeder
         $editarCatalgos = Permission::where('name', 'editar_catalogos')->first();
         $eliminarCatalogos = Permission::where('name', 'eliminar_catalogos')->first();
 
-        // 4. Creación de roles principales especificando el tipo
-              // Rol Operador Admin
-        $operadorR3 = Role::create(['name' => 'r_1_operador' , 'guard_name' => $guard]);
-        $operadorR3->syncPermissions([$verReportes, $crearReportes, $editarReportes, $eliminarReportes]);
-        
-        // Rol Operador funcional
-        $operadorR2 = Role::create(['name' => 'r_2_operador', 'guard_name' => $guard]);
-        $operadorR2->syncPermissions([$verReportes, $crearReportes]);
-
-        // Rol Operador solo lectura
-        $operadorR1 = Role::create(['name' => 'r_3_operador', 'guard_name' => $guard]);
-        $operadorR1->syncPermissions([ $verReportes ]);
-
-        // Rol Administrador
-        $adminR = Role::create(['name' => 'r_admin', 'guard_name' => $guard]);
+        // Rol Administrador con todos los permisos
+        $adminR = Role::create(['name' => 'admin', 'guard_name' => $guard]);
         $allWebPermissions = Permission::where('guard_name', $guard)->get();
         $adminR->syncPermissions($allWebPermissions);
     

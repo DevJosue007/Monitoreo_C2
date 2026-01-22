@@ -35,32 +35,41 @@
                     Dashboard
                 </x-sidebar-link>
 
-                @hasanyrole('r_admin|reportes_n1|reportes_n2')
-                <x-sidebar-link href="{{ route('reportes.index') }}" :active="request()->routeIs('reportes.*')">
-                    <x-heroicon-o-document-text class="w-5 h-5 mr-3" />
-                    Reportes
-                </x-sidebar-link>
-                @endhasanyrole
-
-                @role('r_admin')
-                    <p class="text-xs font-semibold text-slate-500 uppercase mt-6 mb-2 ml-2">Configuración</p>
-                    <x-sidebar-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.*')">
-                        <x-heroicon-o-key class="w-5 h-5 mr-3" />
-                        Roles y Permisos
+                @can('ver_reportes')
+                    <x-sidebar-link href="{{ route('reportes.index') }}" :active="request()->routeIs('reportes.*')">
+                        <x-heroicon-o-document-text class="w-5 h-5 mr-3" />
+                        Reportes
                     </x-sidebar-link>
+                @endcan
 
+
+                @can('ver_catalogos')
                     <x-sidebar-link href="{{ route('catalogos.index') }}" :active="request()->routeIs('catalogos.*')">
                         <x-heroicon-o-square-3-stack-3d class="w-5 h-5 mr-3" />
                         Catálogos
                     </x-sidebar-link>
+                @endcan
 
+
+                @can('ver_usuarios')
                     <x-sidebar-link href=" {{ route('usuarios.index') }}" :active="request()->routeIs('usuarios.*')">
                         <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-5 mr-2">
                             <path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                         </svg>
                         Usuarios
                     </x-sidebar-link>
+                @endcan
+
+
+                <p class="text-xs font-semibold text-slate-500 uppercase mt-6 mb-2 ml-2">Configuración</p>
+
+                @role('admin')
+                    <x-sidebar-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.*')">
+                        <x-heroicon-o-key class="w-5 h-5 mr-3" />
+                        Roles y Permisos
+                    </x-sidebar-link>
                 @endrole
+
             </nav>
 
             <div class="p-4 border-t border-slate-800" x-data="{ open: false }">

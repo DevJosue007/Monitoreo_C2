@@ -17,13 +17,8 @@
             <div class="flex justify-end mb-4">
                 {{-- <input type="text" wire:model.live="search" placeholder="Filtrar por etiqueta..."
                     class="rounded-md border-gray-300 shadow-sm"> --}}
-                <x-primary-button wire:click="nuevoReporte"
-                    class="bg-blue-500 text-white hover:bg-blue-800 px-4 py-2 rounded">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                    </svg>
-                    Nuevo Reporte
-                </x-primary-button>
+
+                <x-create-button wire:click="nuevoReporte" permission="crear_reportes"></x-create-button>
             </div>
 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
@@ -56,12 +51,15 @@
                                             ({{ $r->media->count() }})
                                         </x-primary-button>
 
-                                        <x-edit-button type="button" wire:click="edit({{ $r->id }})">
+                                        
+                                        
+                                        <x-edit-button type="button" wire:click="edit({{ $r->id }})" permission="editar_reportes">
                                         </x-edit-button>
 
-                                        <x-delete-button wire:click="delete({{ $r->id }})"
+                                        <x-delete-button wire:click="delete({{ $r->id }})" permission="eliminar_reportes"
                                             wire:confirm="¿Estas seguro que deseas seliminar este reporte?">
                                         </x-delete-button>
+
                                     </td>
                                 </tr>
                             @endforeach
